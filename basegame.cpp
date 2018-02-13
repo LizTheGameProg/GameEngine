@@ -4,24 +4,23 @@
 #include "string"
 #include "vector"
 
-#include "processhandler.h"
-ProcessHandler process;
+using namespace std;
 
-// Game World: very basic atm
+#include "world.h"
 World world;
 
-// Wrapper for platform specific stuff
-SystemHandler system;
+#include "systemHandler.h"
+SystemHandler systemHandler;
 
 double msPerUpdate = 1.0/60.0;
 
 void handleStartUpArgs(int argc, char** argv)
 {
 	// setup the arguements into a dynamic array of strings
-	std::vector<std::string> args = std::vector<std::string>();
+	vector<string> args = vector<string>();
 	for(int i = 0; i < argc; i++)
 	{
-		args.push_back(std::string(argv[i]));
+		args.push_back(string(argv[i]));
 	}
 	
 	
@@ -40,8 +39,13 @@ BaseGame::~BaseGame()
 
 bool BaseGame::Init()
 {
-	process.Initialize();
-	OnInit();
+	bool systemInitialized = systemHandler.Initialize();
+	if(systemInitialized)
+	{
+		OnInit();
+	}
+	
+	return systemInitialized;
 }
 
 void BaseGame::Load()
@@ -56,20 +60,20 @@ void BaseGame::Run()
 	unsigned int updateIterations = 0;
 	const unsigned int maxUpdateIterations = 5;
 	double lag = 0.0;
-	double previous = process.GetCurrentTime();
-	while(runGame && !process.ShouldExit())
+	double previous = systemHandler.GetCurrentTime();
+	while(runGame && !systemHandler.ShouldExit())
 	{
-		current = process.GetCurrentTime();
+		current = systemHandler.GetCurrentTime();
 		elapsed = current - previous;
 		previous = current;
 		lag += elapsed;
 		
-		process.ProcessEvents();
+		systemHandler.ProcessEvents();
 		
 		updateIterations = 0;
-		while(lag >= msPerUpdate && updateIterations < maxUpdateInterations)
+		while(lag >= msPerUpdate && updateIterations < maxUpdateIterations)
 		{
-			Update();
+			Update(msPerUpdate);
 			lag -= msPerUpdate;
 			updateIterations++;
 		}
@@ -85,7 +89,7 @@ void BaseGame::UnLoad()
 void BaseGame::DeInit()
 {
 	OnDeInit();
-	process.Terminate();
+	systemHandler.DeInitialize();
 }
 
 int BaseGame::Exit()
@@ -93,15 +97,35 @@ int BaseGame::Exit()
 	return 0;
 }
 
+const World & BaseGame::GetWorld()
+{
+	return world;
+}
+
+World & BaseGame::AccessWorld()
+{
+	return world;
+}
+
+const SystemHandler & BaseGame::GetSystemHandler()
+{
+	return systemHandler;
+}
+
+SystemHandler & BaseGame::AccessSystemHandler()
+{
+	return systemHandler;
+}
+
 void BaseGame::PreUpdate()
 {
 	
 }
 
-void BaseGame::Update()
+void BaseGame::Update(const double msPerUpdate)
 {
 	PreUpdate();
-	OnUpdate(msPerUpdate);
+	OnUpdate();
 	PostUpdate();
 }
 
@@ -115,7 +139,7 @@ void BaseGame::PreRender()
 	
 }
 
-void BaseGame::Render()
+void BaseGame::Render(const double extraTime)
 {
 	PreRender();
 	OnRender();
