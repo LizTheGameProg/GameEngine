@@ -9,7 +9,7 @@ public:
 	
 	void OnInit();
 	void OnLoad();
-	void OnUpdate(const double deltaTime);
+	void OnUpdate();
 	void OnRender();
 	void OnUnLoad();
 	void OnDeInit();
