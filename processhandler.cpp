@@ -19,7 +19,7 @@ bool ProcessHandler::Initialize()
 	SDL_Init(0);
 }
 
-void ProcessHandler::Terminate()
+void ProcessHandler::DeInitialize()
 {
 	SDL_Quit();
 }
@@ -35,7 +35,7 @@ void ProcessHandler::ProcessEvents()
 	int ret = 1;
 	while(ret == 1)
 	{
-		ret = SDL_PollEvents(&e);
+		ret = SDL_PollEvent(&e);
 		switch(e.type)
 		{
 			case SDL_FIRSTEVENT:
@@ -48,6 +48,7 @@ void ProcessHandler::ProcessEvents()
 			case SDL_QUIT:
 			/**< User-requested quit */
 			{
+				shouldExit = true;
 				break;
 			}
 
@@ -57,6 +58,7 @@ void ProcessHandler::ProcessEvents()
 				Called on iOS in applicationWillTerminate()
 				Called on Android in onDestroy() */
 			{
+				shouldExit = true;
 				break;
 			}
 				
@@ -292,24 +294,6 @@ void ProcessHandler::ProcessEvents()
 /* Drag and drop events */
 			case SDL_DROPFILE:
 			/**< The system requests a file open */
-			{
-				break;
-			}
-			
-			case SDL_DROPTEXT:
-			/**< text/plain drag-and-drop event */
-			{
-				break;
-			}
-			
-			case SDL_DROPBEGIN:
-			/**< A new set of drops is beginning (NULL filename) */
-			{
-				break;
-			}
-			
-			case SDL_DROPCOMPLETE:
-			/**< Current set of drops is now complete (NULL filename) */
 			{
 				break;
 			}
