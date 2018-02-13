@@ -7,7 +7,7 @@ public:
 	~ProcessHandler();
 	
 	bool Initialize();
-	void Terminate();
+	void DeInitialize();
 	
 	bool ShouldExit();
 	
