@@ -20,7 +20,7 @@ public:
 protected:
 	virtual void OnInit() = 0;
 	virtual void OnLoad() = 0;
-	virtual void OnUpdate(const double deltaTime) = 0;
+	virtual void OnUpdate() = 0;
 	virtual void OnRender() = 0;
 	virtual void OnUnLoad() = 0;
 	virtual void OnDeInit() = 0;
@@ -28,16 +28,16 @@ protected:
 	const World & GetWorld();
 	World & AccessWorld();
 	
-	const SystemHandler & GetSystem();
-	SystemHandler & AccessSystem();
+	const SystemHandler & GetSystemHandler();
+	SystemHandler & AccessSystemHandler();
 	
 private:
 	void PreUpdate();
-	void Update();
+	void Update(const double deltaTime);
 	void PostUpdate();
 	
 	void PreRender();
-	void Render();
+	void Render(const double extraTime);
 	void PostRender();
 	
 	bool runGame;
