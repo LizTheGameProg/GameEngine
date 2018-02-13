@@ -21,7 +21,7 @@ void MyGame::OnLoad()
 	
 }
 
-void MyGame::OnUpdate(const double deltaTime)
+void MyGame::OnUpdate()
 {
 	
 }
