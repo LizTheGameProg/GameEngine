@@ -13,7 +13,7 @@ public:
 	bool Init();
 	void Load();
 	void Run();
-	void UnLoad();
+	void DeLoad();
 	void DeInit();
 	int Exit();
 	
@@ -22,7 +22,7 @@ protected:
 	virtual void OnLoad() = 0;
 	virtual void OnUpdate() = 0;
 	virtual void OnRender() = 0;
-	virtual void OnUnLoad() = 0;
+	virtual void OnDeLoad() = 0;
 	virtual void OnDeInit() = 0;
 	
 	const World & GetWorld();
