@@ -16,7 +16,7 @@ ProcessHandler::~ProcessHandler()
 
 bool ProcessHandler::Initialize()
 {
-	retutn SDL_Init(0) == 0;
+	return SDL_Init(0) == 0;
 }
 
 void ProcessHandler::DeInitialize()
