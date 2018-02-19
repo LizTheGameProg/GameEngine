@@ -81,9 +81,9 @@ void BaseGame::Run()
 	}
 }
 
-void BaseGame::UnLoad()
+void BaseGame::DeLoad()
 {
-	OnUnLoad();
+	OnDeLoad();
 }
 
 void BaseGame::DeInit()
