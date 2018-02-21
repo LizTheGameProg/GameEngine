@@ -16,7 +16,7 @@ ProcessHandler::~ProcessHandler()
 	
 }
 
-bool ProcessHandler::Initialize()
+bool ProcessHandler::OnInitialize()
 {
 	bool ret = false;
 	
@@ -25,7 +25,7 @@ bool ProcessHandler::Initialize()
 	return sdlInit && inputInit;
 }
 
-void ProcessHandler::DeInitialize()
+void ProcessHandler::OnDeInitialize()
 {
 	inputHandler.DeInitialize();
 	SDL_Quit();
