@@ -1,13 +1,14 @@
 #pragma once
+#include "handler.h"
 
-class ProcessHandler
+class ProcessHandler : public Handler<ProcessHandler>
 {
 public:
 	ProcessHandler();
 	~ProcessHandler();
 	
-	bool Initialize();
-	void DeInitialize();
+	bool OnInitialize();
+	void OnDeInitialize();
 	
 	bool ShouldExit();
 	
