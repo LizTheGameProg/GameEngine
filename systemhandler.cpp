@@ -13,14 +13,14 @@ SystemHandler::~SystemHandler()
 	
 }
 
-bool SystemHandler::Initialize()
+bool SystemHandler::OnInitialize()
 {
 	bool ret = false;
 	ret = processHandler.Initialize();
 	return ret;
 }
 
-void SystemHandler::DeInitialize()
+void SystemHandler::OnDeInitialize()
 {
 	processHandler.DeInitialize();
 }
