@@ -4,14 +4,20 @@ template<class T>
 class Handler
 {
 public:
-	static bool Create();
-	static void Destroy();
+	constexpr Handler(){}
 	
-	static T const & const Get();
-	static T & const Access();
+	bool Initialize();
+	void DeInitialize();
+	
+	virtual bool OnInitialize() = 0;
+	virtual void OnDeInitialize() = 0;
+	
+	static T const & Get();
+	static T & Access();
 
 private:
-	static T * instance = nullptr;
+	static constexpr T * instance = new T();
+	bool isInitialized = false;
 };
 
 #include "handler.hpp"
