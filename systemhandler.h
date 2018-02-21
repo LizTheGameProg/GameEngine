@@ -1,13 +1,14 @@
 #pragma once
+#include "handler.h"
 
-class SystemHandler
+class SystemHandler : public Handler<SystemHandler>
 {
 public:
 	SystemHandler();
 	~SystemHandler();
 	
-	bool Initialize();
-	void DeInitialize();
+	bool OnInitialize();
+	void OnDeInitialize();
 	
 	bool ShouldExit();
 	double GetCurrentTime();
