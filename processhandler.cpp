@@ -2,6 +2,8 @@
 #include "SDL2/SDL.h"
 #include "GLES3/gl3.h"
 #include "iostream"
+#include "inputhandler.h"
+InputHandler inputHandler;
 
 ProcessHandler::ProcessHandler()
 	: shouldExit(false)
@@ -16,11 +18,16 @@ ProcessHandler::~ProcessHandler()
 
 bool ProcessHandler::Initialize()
 {
-	return SDL_Init(0) == 0;
+	bool ret = false;
+	
+	bool sdlInit = SDL_Init(0) == 0;
+	bool inputInit = inputHandler.Initialize();
+	return sdlInit && inputInit;
 }
 
 void ProcessHandler::DeInitialize()
 {
+	inputHandler.DeInitialize();
 	SDL_Quit();
 }
 
