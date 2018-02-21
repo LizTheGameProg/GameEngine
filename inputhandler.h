@@ -4,7 +4,8 @@
 class InputHandler : public Handler<InputHandler>
 {
 public:
-	constexpr InputHandler();
+	InputHandler();
+	~InputHandler();
 	
 	bool OnInitialize();
 	void OnDeInitialize();
