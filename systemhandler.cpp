@@ -3,6 +3,12 @@
 #include "processhandler.h"
 ProcessHandler processHandler;
 
+#include "SDL2/SDL_video.h"
+SDL_Window * window = nullptr;
+SDL_GLContext glContext;
+
+#include "SDL2/SDL_opengles.h"
+
 SystemHandler::SystemHandler()
 {
 	
@@ -17,11 +23,31 @@ bool SystemHandler::OnInitialize()
 {
 	bool ret = false;
 	ret = processHandler.Initialize();
+	
+	if(ret)
+	{
+		window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 0, 0, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+		if(window)
+		{
+			glContext = SDL_GL_CreateContext(window);
+		}
+		else
+		{
+			ret = false;
+		}
+	}
+	
+	
 	return ret;
 }
 
 void SystemHandler::OnDeInitialize()
 {
+	if(window)
+	{
+		SDL_GL_DeleteContext(glContext);
+		SDL_DestroyWindow(window);
+	}
 	processHandler.DeInitialize();
 }
 
@@ -37,5 +63,13 @@ double SystemHandler::GetCurrentTime()
 
 void SystemHandler::ProcessEvents()
 {
+	glClearColor(0,1,0,1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
 	processHandler.ProcessEvents();
+}
+
+void SystemHandler::Flip()
+{
+	SDL_GL_SwapWindow(window);
 }
